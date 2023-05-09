@@ -33,6 +33,7 @@ macro(enShowInitializationEnventory)
     message(STATUS "") 
     message(STATUS "=== Initialization Enventory: ====================================")
     message(STATUS "                           WIN32 = ${WIN32}")
+    message(STATUS "                           APPLE = ${APPLE}")
     message(STATUS "                   CMAKE_COMMAND = ${CMAKE_COMMAND}")
     message(STATUS "             MSYS2_ARG_CONV_EXCL = $ENV{MSYS2_ARG_CONV_EXCL}")    
     message(STATUS "=================================================================") 
@@ -56,17 +57,22 @@ macro(enShowImplemenationEnventory)
     message(STATUS "           CMAKE_CXX_COMPILER_ID = ${CMAKE_CXX_COMPILER_ID} ")
     message(STATUS "                                 -  ") 
     message(STATUS "                       enIsClang = ${enIsClang}")
+    message(STATUS "                         enIsOSX = ${enIsOSX}")
     message(STATUS "                         enIsMSW = ${enIsMSW}")
     message(STATUS "                        enIsMSYS = ${enIsMSYS}")    
     message(STATUS "                         enIsX86 = ${enIsX86}")    
+    message(STATUS "                         enIsARM = ${enIsARM}")    
     message(STATUS "=================================================================") 
-
-        
+            
 endmacro()
 
 macro(enInitInitializationVars)
 
     message(STATUS "=== enInitInitializationVars")
+
+    if (APPLE)
+        set(enIsOSX ON)
+    endif()
 
     if (WIN32)
         set(enIsMSW ON)
@@ -97,11 +103,13 @@ macro(enInitImplemetationVars)
 
     set(enCompiler ${CMAKE_CXX_COMPILER_ID}) 
 
-    if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang" )
         set(enIsClang ON)
     endif()
 
-    if (CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
+    if (CMAKE_SYSTEM_PROCESSOR MATCHES "(arm64)|(ARM64)")
+        set (enIsARM ON)
+    elseif (CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
         set (enIsX86 ON)
     else ()
         set (enIsX86 OFF)
