@@ -14,15 +14,8 @@ set(wxWidgets_LIB_DIR  "${enWX_LIB_DIR}")
 set(wxWidgets_INCLUDE_DIRS "${enWX_ROOT_DIR} ")
 set(wxWidgets_LIBRARIES "${enWX_LIB_DIR}")
 
-
 if (enIsOSX)
-#    set(wxWidgets_FIND_STYLE "unix")
-#    set(enWX_LIB_DIR   "${enWX_DIR}/dist/osx-x64.release/clang/lib")
-#    set(ENV{WX_CONFIG} "${enWX_DIR}/dist/osx-x64.release/clang/bin/wx-config" )
-#    link_directories("/Users/khalyutin/WORK/source/COMPONENTS/RDE")
     add_definitions(" -D__WXMAC_OSX__ ")
 endif()
-
-
 
 # ./update-revision-info
